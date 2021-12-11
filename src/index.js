@@ -1,45 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore } from 'redux';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import allReducer from './reducers';
+import { Provider } from 'react-redux';
 
-import { createStore } from 'redux';
+const store = createStore(
+  allReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
-// Store -> glabalized state
 
-// Action 
-const increment = () => {
-  return {
-    type: 'INCREMENT'
-  }
-}
-
-const decrement = () => {
-  return {
-    type: 'DECREMENT'
-  }
-}
-
-// Reducer - how action transform to next state
-const counter = (state = 0, action) => {
-  switch (action.type) {
-    case "INCREMENT":
-      return state + 1;
-    case "DECREMENT":
-      return state - 1;
-  }
-}
-
-let store = createStore(counter);
-store.subscribe(() => console.log(store.getState()));
-
-// Dispatch 
-store.dispatch(increment());
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Provider store={store}>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </Provider>,
   document.getElementById('root')
 );
 
